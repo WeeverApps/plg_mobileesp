@@ -246,7 +246,7 @@ class uagent_info
    function DetectIpad()
    {
       if (stripos($this->useragent, $this->deviceIpad) > -1 &&
-          $this->DetectWebkit() == $this->true) &&
+          $this->DetectWebkit() == $this->true &&
           $this->DetectAppleTVTwo() == $this->false) // ### make sure it's not an Apple TV2 w/aTV Flash (black)          
          return $this->true;
       else
@@ -953,22 +953,24 @@ class uagent_info
       else
          return $this->false;
    }
+   
+   //**************************** // ###
+   // Weever additional functions
+   function DetectTierWeeverSmartphones()
+   {
+      if ($this->DetectIphoneOrIpod() == $this->true) 
+         return $this->true; 
+      if ($this->DetectAndroid() == $this->true) 
+         return $this->true; 
+      if ($this->DetectBlackBerryTouch() == $this->true) 
+         return $this->true; 
+      else
+         return $this->false; 
+   }
+   
+   
      
 
-}
-
-//**************************** // ###
-// Weever additional functions
-function DetectTierWeeverSmartphones()
-{
-   if ($this->DetectIphoneOrIpod() == $this->true) 
-      return $this->true; 
-   if ($this->DetectAndroid() == $this->true) 
-      return $this->true; 
-   if ($this->DetectBlackBerryTouch() == $this->true) 
-      return $this->true; 
-   else
-      return $this->false; 
 }
 
 
