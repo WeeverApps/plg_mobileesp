@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.6" type="plugin" group="system">
+	<name>System - MobileESP for Joomla</name>
+	<author>Robert Gerald Porter, Anthony Hand</author>
+	<creationDate>2011-08-03</creationDate>
+	<copyright>
+		Joomla Component authored by Robert Gerald Porter, 
+		The MobileESP Project is Copyright (C) 2010-2011 Anthony Hand
+	</copyright>
+	<license>GPLv3</license>
+	<authorEmail>rob@weeverapps.com</authorEmail>
+	<authorUrl>www.weeverapps.com</authorUrl>
+	<version>0.9.1</version>
+	<description>MobileESP plugin for Joomla, detects smartphones to redirect to web app site or specific landing URL in Joomla.</description>
+	<files>
+		<filename plugin="mobileesp">mobileesp.php</filename>
+		<filename plugin="mobileesp">mdetect.php</filename>
+	</files>
+	<config>
+	<fields name="params">
+		<fieldset name="Settings">
+		   <field name="appService" type="list" default="none" label="Mobile App Service" description="Select which mobile app service you are using.">
+		     <option value="none">none / custom (use settings below)</option>
+		     <option value="weever">Weever App (use settings from Weever Apps component)</option>
+		   </field>
+		   <field name="forwardingEnabled" type="radio" default="0" label="Mobile Forwarding" description="Forward any visitors to specified URL">
+		     <option value="0">Disabled</option>
+		     <option value="1">Enabled</option>
+		   </field>	
+		   <field name="forwardingUrl" type="text" default="" size="35" label="Forwarding URL" description="URL to forward selected mobile users to."/>
+		   <field name="devicesForwarded"  rows="5" cols="35" type="textarea" default="" label="Device Detection Functions Used" description="A comma-seperated list of detection functions from mdetect.php to run. If any one of them are correct, the device will forward to the forwarding URL. "/>
+		   <field name="webkitOnly" type="radio" default="1" label="WebKit only" description="Forward only when WebKit browser is detected?">
+		     <option value="0">No</option>
+		     <option value="1">Yes</option>
+		   </field>	
+		 </fieldset>
+		</fields>
+	</config>
+</extension>

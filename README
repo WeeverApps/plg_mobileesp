@@ -1,0 +1,31 @@
+/*
+*	MobileESP for Joomla
+*
+*	Authors: 	Robert Gerald Porter (Joomla! Plugin) <rob@weeverapps.com>
+*				Anthony Hand (The MobileESP Project) <http://code.google.com/p/mobileesp/>		
+*	Version: 	0.9.1
+*   License: 	GPL v3.0
+* 	Copyright: 	The MobileESP Project is Copyright 2010-2011, Anthony Hand
+
+*
+*   This extension is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   This extension is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details <http://www.gnu.org/licenses/>.
+* 
+*/
+
+Usage:
+
+There are currently two supported modes: Custom, and Weever App.
+
+In custom mode, use the plugin settings to specify which mdetect detection methods you wish to test for: for example, if you want to specify that iOS devices will be forwarded to an app in the App Store, you would specify "DetectIos" (without the quotes) in the Device Detection Functions field, and the itunes:// address to the app in the Forwarding URL. 
+
+In Weever App mode, the Weever App component for Joomla will manage your redirection settings. If you are doing this, it is better to install the full Weever extension package, available for download at <http://weeverapps.com/downloads>.
+
+If you want to turn off device detection for your specific device or for visitors who wish to view your regular Joomla site layout, pass the variable full=1 in your URL query string, IE <http://yoursite.com/index.php?full=0>. This will disable detection for the duration of the browser's session. To undo this, pass full=0.
