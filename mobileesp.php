@@ -1,13 +1,12 @@
 <?php
 /*
 *	MobileESP for Joomla
-*	Packaged by Weever Apps Inc. <http://www.weeverapps.com/>
 * 	The MobileESP Project is Copyright 2010-2011, Anthony Hand
 *
-*	Authors:	Robert Gerald Porter (Joomla! Plugin) <rob@weeverapps.com>
-*				Anthony Hand (The MobileESP Project) <http://code.google.com/p/mobileesp/>		
-*	Version: 	0.9.1
-*	License: 	GPL v3.0
+*	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
+*	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
+*	Version: 			0.9.1
+*	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
 *	it under the terms of the GNU General Public License as published by
@@ -177,8 +176,8 @@ class mobileESPWeeverHelper {
 	
 		$db = &JFactory::getDBO();
 			
-		$query = "	SELECT	* ".
-				"	FROM	#__weever_config ";
+		$query = 	"	SELECT	* ".
+					"	FROM	#__weever_config ";
 				
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
