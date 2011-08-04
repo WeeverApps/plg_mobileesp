@@ -4,7 +4,7 @@
 *	Packaged by Weever Apps Inc. <http://www.weeverapps.com/>
 * 	The MobileESP Project is Copyright 2010-2011, Anthony Hand
 *
-*	Authors: 	Robert Gerald Porter (Joomla! Plugin) <rob@weeverapps.com>
+*	Authors:	Robert Gerald Porter (Joomla! Plugin) <rob@weeverapps.com>
 *				Anthony Hand (The MobileESP Project) <http://code.google.com/p/mobileesp/>		
 *	Version: 	0.9.1
 *	License: 	GPL v3.0
@@ -68,11 +68,10 @@ class plgSystemMobileESP extends JPlugin
 			
 				// no sense in doing anything if the component isn't installed
 				if(!JComponentHelper::isEnabled('com_weever'))
-					return; // error warning maybe?
+					return;
 					
 				$settings = mobileESPWeeverHelper::getWeeverSettingsDB();
 				
-				// if app is disabled, no forwarding
 				if(mobileESPWeeverHelper::getAppEnabled($settings) == "0")
 					return;
 
@@ -84,8 +83,7 @@ class plgSystemMobileESP extends JPlugin
 					$deviceList[] = $devices;
 				
 				$uagent_obj = new uagent_info();
-				
-				// Only WebKit is supported, might as well get out now if it's not WebKit
+
 				if(!$uagent_obj->DetectWebkit())
 				{
 					$session->set( 'ignore_mobile', '1' );
@@ -103,7 +101,6 @@ class plgSystemMobileESP extends JPlugin
 					}
 				}
 				
-				// devices on list not detected, let's not have it check again in this session
 				if($weeverApp == false)
 				{
 					$session->set( 'ignore_mobile', '1' );
@@ -115,7 +112,6 @@ class plgSystemMobileESP extends JPlugin
 				$request_uri = str_replace("?full=0","",$request_uri);
 				$request_uri = str_replace("&full=0","",$request_uri);		
 		
-				// check for URI requests other than home
 				if($request_uri && $request_uri != 'index.php' && $request_uri != '/'  )
 					$exturl = '?exturl='.$request_uri;
 				else
@@ -129,13 +125,11 @@ class plgSystemMobileESP extends JPlugin
 			
 			default:
 			
-				// if forwarding is disabled
 				if(!$this->params->get('forwardingEnabled', 0))
 					return;
 					
 				$uagent_obj = new uagent_info();
 					
-				// if we're requiring WebKit, and there ain't none to be found
 				if(!$this->params->get('webkitOnly', 0) && (!$uagent_obj->DetectWebkit()))
 				{
 					$session->set( 'ignore_mobile', '1' );
@@ -144,7 +138,6 @@ class plgSystemMobileESP extends JPlugin
 					
 				$devices = $this->params->get('devicesForwarded', '');
 				
-				// if there are no device methods listed
 				if(!$devices)
 					return;
 				
@@ -177,7 +170,6 @@ class plgSystemMobileESP extends JPlugin
 }
 
 
-// Weever helper class
 class mobileESPWeeverHelper {
 
 	static function getWeeverSettingsDB()
