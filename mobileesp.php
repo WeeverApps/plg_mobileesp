@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			0.9.1
+*	Version: 			0.9.1.1
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -151,9 +151,12 @@ class plgSystemMobileESP extends JPlugin
 				}
 				
 				// devices on list not detected, let's not have it check again in this session
+				
+				// only send once, in case the redirect is to a landing page
+				$session->set( 'ignore_mobile', '1' );
+				
 				if($forwardApp == false)
 				{
-					$session->set( 'ignore_mobile', '1' );
 					return;
 				}
 				
