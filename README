@@ -28,3 +28,4 @@ In custom mode, use the plugin settings to specify which mdetect detection metho
 In Weever App mode, the Weever App component for Joomla will manage your redirection settings. If you are doing this, it is better to install the full Weever extension package, available for download at <http://weeverapps.com/downloads>.
 
 If you want to turn off device detection for your specific device or for visitors who wish to view your regular Joomla site layout, pass the variable full=1 in your URL query string, IE <http://yoursite.com/index.php?full=1>. This will disable detection for the duration of the browser's session. To undo this, pass full=0.
+
