@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			0.9.1.1
+*	Version: 			0.9.2
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -115,10 +115,23 @@ class plgSystemMobileESP extends JPlugin
 					$exturl = '?exturl='.$request_uri;
 				else
 					$exturl = "";
-										
-				$siteDomain = mobileESPWeeverHelper::getPrimaryDomain($settings);
+					
+				// requires version 0.9.2+ of com_weever	
+				if($customAppDomain = mobileESPWeeverHelper::getCustomAppDomain($settings))
+				{
 				
-				header('Location: http://weeverapp.com/app/'.$siteDomain.$exturl);
+					header('Location: '.$customAppDomain.$exturl);
+					jexit();
+				
+				}
+				else 
+				{
+											
+					$siteDomain = mobileESPWeeverHelper::getPrimaryDomain($settings);
+					header('Location: http://weeverapp.com/app/'.$siteDomain.$exturl);
+					jexit();
+					
+				}
 			
 				break;
 			
@@ -189,6 +202,8 @@ class mobileESPWeeverHelper {
 	
 	}
 	
+	// these functions need refactoring when I get the chance
+	
 	static function getPrimaryDomain($result)
 	{
 	
@@ -221,6 +236,18 @@ class mobileESPWeeverHelper {
 		foreach((array)$result as $k=>$v)
 		{
 			if($v->option == "app_enabled")
+				return $v->setting;
+		}
+	
+		return null;
+	}
+	
+	static function getCustomAppDomain($result)
+	{
+	
+		foreach((array)$result as $k=>$v)
+		{
+			if($v->option == "domain")
 				return $v->setting;
 		}
 	
