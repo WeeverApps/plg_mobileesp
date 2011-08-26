@@ -2,7 +2,7 @@
 <install version="1.5" type="plugin" group="system" method="upgrade">
 	<name>System - MobileESP for Joomla</name>
 	<author>Robert Gerald Porter, Anthony Hand</author>
-	<creationDate>2011-08-05</creationDate>
+	<creationDate>2011-08-24</creationDate>
 	<copyright>
 		Joomla Component authored by Robert Gerald Porter, 
 		The MobileESP Project is Copyright (C) 2010-2011 Anthony Hand
