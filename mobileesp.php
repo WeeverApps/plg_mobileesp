@@ -1,11 +1,11 @@
 <?php
 /*
-*	MobileESP for Joomla
+*	MobileESP
 * 	The MobileESP Project is Copyright 2010-2011, Anthony Hand
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			0.9.2
+*	Version: 			0.9.3
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -120,7 +120,7 @@ class plgSystemMobileESP extends JPlugin
 				if($customAppDomain = mobileESPWeeverHelper::getCustomAppDomain($settings))
 				{
 				
-					header('Location: '.$customAppDomain.$exturl);
+					header('Location: http://'.$customAppDomain.$exturl);
 					jexit();
 				
 				}
