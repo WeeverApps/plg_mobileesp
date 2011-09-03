@@ -3,6 +3,21 @@
 /* *******************************************
 // Copyright 2010-2011, Anthony Hand
 //
+// File version date: August 22, 2011
+//              Update:
+//              - Updated DetectAndroidTablet() to fix a bug introduced in the last fix! The true/false returns were mixed up.
+//
+// File version date: August 16, 2011
+//              Update:
+//              - Updated DetectAndroidTablet() to exclude Opera Mini, which was falsely reporting as running on a tablet device when on a phone.
+//
+// File version date: August 7, 2011
+//              Update:
+//              - The Opera for Android browser doesn't follow Google's recommended useragent string guidelines, so some fixes were needed.
+//              - Updated DetectAndroidPhone() and DetectAndroidTablet() to properly detect devices running Opera Mobile.
+//              - Created 2 new methods: DetectOperaAndroidPhone() and DetectOperaAndroidTablet().
+//              - Updated DetectTierIphone(). Removed the call to DetectMaemoTablet(), an obsolete mobile OS.
+//
 // File version date: July 15, 2011
 //              Update:
 //              - Refactored the variable called maemoTablet. Its new name is the more generic deviceTablet.
@@ -10,10 +25,6 @@
 //              - Created the DetectWebOSTablet() method for HP's line of WebOS tablets starting with the TouchPad tablet.
 //              - Updated the DetectTierTablet() method to also search for WebOS tablets.
 //              - Updated the DetectMaemoTablet() method to disambiguate against WebOS tablets which share some signature traits.
-//
-// File version date: June 04, 2011
-//              Update:
-//              - Updated DetectTierIphone() for a BlackBerry issue. Now it checks for both BB WebKit *and* BB Touch.
 //
 //
 // LICENSE INFORMATION
@@ -40,9 +51,9 @@
 // *******************************************
 */
 
-// ### Edits for MobileESP for Joomla 1.5 marked by "###". Written by Robert Gerald Porter <rob@weeverapps.com>
-// Released under GPL v3, fully compatible with original Apache 2.0 license <http://www.apache.org/licenses/GPL-compatibility.html>
 
+// ### Edits for MobileESP for Joomla marked by "###". Written by Robert Gerald Porter <rob@weeverapps.com>
+// Released under GPL v3, fully compatible with original Apache 2.0 license <http://www.apache.org/licenses/GPL-compatibility.html>
 
 //**************************
 // The uagent_info class encapsulates information about
@@ -69,6 +80,10 @@ class uagent_info
    var $isTierIphone = 0; //Stores whether is the iPhone tier of devices.
    var $isTierRichCss = 0; //Stores whether the device can probably support Rich CSS, but JavaScript support is not assumed. (e.g., newer BlackBerry, Windows Mobile)
    var $isTierGenericMobile = 0; //Stores whether it is another mobile device, which cannot be assumed to support CSS or JS (eg, older BlackBerry, RAZR)
+   
+   // ### Added for AppleTV and disambiguation for iPad
+   var $deviceIntelMacOSX = 'intel mac os x'; // Used for AppleTV2 w/ aTV Flash (black) Couch Surfer Pro browser detection
+   
 
    //Initialize some initial smartphone string variables.
    var $engineWebKit = 'webkit';
@@ -76,9 +91,6 @@ class uagent_info
    var $deviceIpod = 'ipod';
    var $deviceIpad = 'ipad';
    var $deviceMacPpc = 'macintosh'; //Used for disambiguation
-   
-   // ### Added for AppleTV and disambiguation for iPad
-   var $deviceIntelMacOSX = 'intel mac os x'; // Used for AppleTV2 w/ aTV Flash (black) Couch Surfer Pro browser detection
 
    var $deviceAndroid = 'android';
    var $deviceGoogleTV = 'googletv';
@@ -247,7 +259,7 @@ class uagent_info
    {
       if (stripos($this->useragent, $this->deviceIpad) > -1 &&
           $this->DetectWebkit() == $this->true &&
-          $this->DetectAppleTVTwo() == $this->false) // ### make sure it's not an Apple TV2 w/aTV Flash (black)          
+          $this->DetectAppleTVTwo() == $this->false) // ### make sure it's not an Apple TV2 w/aTV Flash (black) 
          return $this->true;
       else
          return $this->false;
@@ -264,19 +276,6 @@ class uagent_info
       else
          return $this->false;
    }
-   
-   
-   //************************** // ###
-   // Detects AppleTV second generation, jailbroken with Firecore's aTV Flash (black) Couch Surfer Pro browser.
-   function DetectAppleTVTwo()
-   {
-   	   // Couch Surfer Pro shows up as an iPad, but with Intel Mac OS X string
-       if(stripos($this->useragent, $this->deviceIntelMacOSX) > -1 && 
-       		stripos($this->useragent, $this->deviceIpad) > -1)
-          return $this->true;
-       else
-          return $this->false;
-   }
 
    //**************************
    // Detects *any* iOS device: iPhone, iPod Touch, iPad.
@@ -288,6 +287,19 @@ class uagent_info
       else
          return $this->false;
    }
+
+
+//************************** // ###
+// Detects AppleTV second generation, jailbroken with Firecore's aTV Flash (black) Couch Surfer Pro browser.
+function DetectAppleTVTwo()
+{
+	   // Couch Surfer Pro shows up as an iPad, but with Intel Mac OS X string
+    if(stripos($this->useragent, $this->deviceIntelMacOSX) > -1 && 
+    		stripos($this->useragent, $this->deviceIpad) > -1)
+       return $this->true;
+    else
+       return $this->false;
+}
 
 
    //**************************
@@ -315,6 +327,9 @@ class uagent_info
       if (($this->DetectAndroid() == $this->true) &&
                 (stripos($this->useragent, $this->mobile) > -1))
          return $this->true;
+      //Special check for Android phones with Opera Mobile. They should report here.
+      if (($this->DetectOperaAndroidPhone() == $this->true))
+         return $this->true;
       //Special check for the HTC Flyer 7" tablet. It should report here.
       if ((stripos($this->useragent, $this->deviceHtcFlyer) > -1))
          return $this->true;
@@ -327,14 +342,22 @@ class uagent_info
    // Google says these devices will have 'Android' and NOT 'mobile' in their user agent.
    function DetectAndroidTablet()
    {
+      //First, let's make sure we're on an Android device.
+      if ($this->DetectAndroid() == $this->false)
+         return $this->false;
+
+      //Special check for Opera Android Phones. They should NOT report here.
+      if ($this->DetectOperaMobile() == $this->true)
+         return $this->false;
       //Special check for the HTC Flyer 7" tablet. It should NOT report here.
       if ((stripos($this->useragent, $this->deviceHtcFlyer) > -1))
          return $this->false;
-      if (($this->DetectAndroid() == $this->true) &&
-                 !(stripos($this->useragent, $this->mobile) > -1))
-         return $this->true;
-      else
+         
+      //Otherwise, if it's Android and does NOT have 'mobile' in it, Google says it's a tablet.
+      if (stripos($this->useragent, $this->mobile) > -1)
          return $this->false;
+      else
+         return $this->true;
    }
 
    //**************************
@@ -654,6 +677,32 @@ class uagent_info
    }
 
    //**************************
+   // Detects if the current browser is Opera Mobile
+   // running on an Android phone.
+   function DetectOperaAndroidPhone()
+   {
+      if ((stripos($this->useragent, $this->engineOpera) > -1) &&
+        (stripos($this->useragent, $this->deviceAndroid) > -1) &&
+                (stripos($this->useragent, $this->mobi) > -1))
+         return $this->true;
+      else
+         return $this->false;
+   }
+
+   //**************************
+   // Detects if the current browser is Opera Mobile
+   // running on an Android tablet.  
+   function DetectOperaAndroidTablet()
+   {
+      if ((stripos($this->useragent, $this->engineOpera) > -1) &&
+        (stripos($this->useragent, $this->deviceAndroid) > -1) &&
+                (stripos($this->useragent, $this->deviceTablet) > -1))
+         return $this->true;
+      else
+         return $this->false;
+   }
+
+   //**************************
    // Detects whether the device supports WAP or WML.
    function DetectWapWml()
    {
@@ -781,7 +830,8 @@ class uagent_info
       //For Nokia N810, must be Linux + Tablet, or else it could be something else.
       if ((stripos($this->useragent, $this->linux) > -1)
                 && (stripos($this->useragent, $this->deviceTablet) > -1)
-                && ($this->DetectWebOSTablet() == $this->false))
+                && ($this->DetectWebOSTablet() == $this->false)
+                && ($this->DetectAndroid() == $this->false))
          return $this->true;
       else
          return $this->false;
@@ -894,8 +944,6 @@ class uagent_info
          return $this->true;
       if ($this->DetectGarminNuvifone() == $this->true)
          return $this->true;
-      if ($this->DetectMaemoTablet() == $this->true)
-         return $this->true;
       else
          return $this->false;
    }
@@ -954,25 +1002,34 @@ class uagent_info
          return $this->false;
    }
    
-   //**************************** // ###
-   // Weever additional functions
-   function DetectTierWeeverSmartphones()
-   {
-      if ($this->DetectIphoneOrIpod() == $this->true) 
-         return $this->true; 
-      if ($this->DetectAndroid() == $this->true) 
-         return $this->true; 
-      if ($this->DetectBlackBerryTouch() == $this->true) 
-         return $this->true; 
-      else
-         return $this->false; 
-   }
-   
-   
-     
+
+	//**************************** // ###
+	// Weever additional functions
+	function DetectTierWeeverSmartphones()
+	{
+	   if ($this->DetectIphoneOrIpod() == $this->true) 
+	      return $this->true; 
+	   if ($this->DetectAndroid() == $this->true) 
+	      return $this->true; 
+	   if ($this->DetectBlackBerryTouch() == $this->true) 
+	      return $this->true; 
+	   else
+	      return $this->false; 
+	}
+	
+	function DetectTierWeeverTablets()
+	{
+	   if (($this->DetectIpad() == $this->true)
+	      || ($this->DetectAndroidTablet() == $this->true)
+	      || ($this->DetectBlackBerryTablet() == $this->true))
+	      return $this->true;
+	   else
+	      return $this->false;
+	}
+	   
+	     
 
 }
-
 
 
 //Was informed by a MobileESP user that it's a best practice
