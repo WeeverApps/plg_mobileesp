@@ -10,7 +10,7 @@
 	<license>GPLv3</license>
 	<authorEmail>rob@weeverapps.com</authorEmail>
 	<authorUrl>http://www.weeverapps.com/</authorUrl>
-	<version>0.9.3</version>
+	<version>0.9.3.1</version>
 	<description>MobileESP plugin for Joomla, detects smartphones to redirect to web app site or specific landing URL in Joomla.</description>
 	<files>
 		<filename plugin="mobileesp">mobileesp.php</filename>
