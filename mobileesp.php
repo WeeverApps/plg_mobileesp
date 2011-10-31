@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			0.9.3
+*	Version: 			1.0
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -112,7 +112,7 @@ class plgSystemMobileESP extends JPlugin
 				$request_uri = str_replace("&full=0","",$request_uri);		
 		
 				if($request_uri && $request_uri != 'index.php' && $request_uri != '/'  )
-					$exturl = '?exturl='.$request_uri;
+					$exturl = '?exturl='.urlencode($request_uri);
 				else
 					$exturl = "";
 					
