@@ -1,11 +1,11 @@
 <?php
 /*
 *	MobileESP
-* 	The MobileESP Project is Copyright 2010-2011, Anthony Hand
+* 	The MobileESP Project is Copyright 2010-2012, Anthony Hand
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			0.9.3.1
+*	Version: 			1.0
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -142,6 +142,7 @@ class uagent_info
    var $deviceBBTour = 'blackberry96'; //Tour
    var $deviceBBCurve = 'blackberry89'; //Curve2
    var $deviceBBTorch = 'blackberry 98'; //Torch
+   var $deviceBBBoldTouch = 'blackberry 99'; //### Bold Touch
    var $deviceBBPlaybook = 'playbook'; //PlayBook tablet
    
    var $devicePalm = 'palm';
@@ -533,7 +534,8 @@ function DetectAppleTVTwo()
    function DetectBlackBerryTouch()
    {
        if ((stripos($this->useragent, $this->deviceBBStorm) > -1) ||
-                (stripos($this->useragent, $this->deviceBBTorch) > -1))
+                (stripos($this->useragent, $this->deviceBBTorch) > -1) ||
+                (stripos($this->useragent, $this->deviceBBBoldTouch) > -1)) // ###
          return $this->true;
        else
          return $this->false;
