@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			1.0.1
+*	Version: 			1.0.2
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -142,7 +142,9 @@ class uagent_info
    var $deviceBBTour = 'blackberry96'; //Tour
    var $deviceBBCurve = 'blackberry89'; //Curve2
    var $deviceBBTorch = 'blackberry 98'; //Torch
+   var $deviceBBBoldTouch97 = 'blackberry 979'; //### Bold Touch
    var $deviceBBBoldTouch = 'blackberry 99'; //### Bold Touch
+   var $deviceBBCurveTouch = 'blackberry 938'; // ### Curve Touch
    var $deviceBBPlaybook = 'playbook'; //PlayBook tablet
    
    var $devicePalm = 'palm';
@@ -535,7 +537,9 @@ function DetectAppleTVTwo()
    {
        if ((stripos($this->useragent, $this->deviceBBStorm) > -1) ||
                 (stripos($this->useragent, $this->deviceBBTorch) > -1) ||
-                (stripos($this->useragent, $this->deviceBBBoldTouch) > -1)) // ###
+                (stripos($this->useragent, $this->deviceBBBoldTouch) > -1) ||
+                (stripos($this->useragent, $this->deviceBBBoldTouch97) > -1) ||
+                (stripos($this->useragent, $this->deviceBBCurveTouch) > -1)) // ###
          return $this->true;
        else
          return $this->false;
