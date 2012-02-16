@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			1.0.2
+*	Version: 			1.0.3
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -32,6 +32,12 @@ class plgSystemMobileESP extends JPlugin
 	
 	public function plgSystemMobileESP(&$subject, $config)
 	{
+	
+		$app =& JFactory::getApplication();
+		
+		// disable on the admin backend
+		if( $app->isAdmin() )
+			return;
 	
 		parent::__construct($subject, $config);
 	
