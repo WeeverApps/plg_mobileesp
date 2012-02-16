@@ -30,7 +30,7 @@ require_once JPATH_PLUGINS.DS.'system'.DS.'mobileesp'.DS.'mdetect.php';
 class plgSystemMobileESP extends JPlugin
 {
 	
-	public function plgSystemMobileESP(& $subject, $config)
+	public function plgSystemMobileESP(&$subject, $config)
 	{
 	
 		parent::__construct($subject, $config);
