@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			1.0.3
+*	Version: 			1.1
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -50,7 +50,12 @@ class plgSystemMobileESP extends JPlugin
 	
 		// none of this if it's an RSS request, specific template, or 
 		// component-only setting to play nice with Joomla devs & Weever
-		if(JRequest::getVar('template') || JRequest::getVar('format') || JRequest::getVar('tmpl'))
+		if( JRequest::getVar('template') || JRequest::getVar('format') || JRequest::getVar('tmpl') || JRequest::getVar('wxfeed') || JRequest::getVar('jCorsRequest') )
+			return;
+			
+			
+		/* Compatibility with login extension */
+		if( JRequest::getVar('option') == 'com_weeverlogin' )
 			return;
 			
 		// kill the ignore_mobile session var if full=0 added to query

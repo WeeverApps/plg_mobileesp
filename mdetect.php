@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			1.0.3
+*	Version: 			1.1
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
