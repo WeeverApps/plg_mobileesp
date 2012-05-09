@@ -66,8 +66,10 @@ class plgSystemMobileESP extends JPlugin
 		// if requesting the full site, ignore all this
 		if(JRequest::getVar('full') > 0 || $session->get( 'ignore_mobile', '' ) == '1')
 		{
+		
 			$session->set( 'ignore_mobile', '1' );
 			return;
+			
 		} 
 	
 		switch($this->params->get('appService'))
@@ -147,12 +149,12 @@ class plgSystemMobileESP extends JPlugin
 			
 			default:
 			
-				if(!$this->params->get('forwardingEnabled', 0))
+				if( !$this->params->get('forwardingEnabled', 0) )
 					return;
 					
 				$uagent_obj = new uagent_info();
 					
-				if (!$this->params->get('webkitOnly', 0) && (!$uagent_obj->DetectWebkit()) )
+				if( !$this->params->get('webkitOnly', 0) && ( !$uagent_obj->DetectWebkit() ) )
 				{
 				
 					$session->set( 'ignore_mobile', '1' );
@@ -165,11 +167,11 @@ class plgSystemMobileESP extends JPlugin
 				if(!$devices)
 					return;
 				
-				$deviceList = explode(",",$devices);
+				$deviceList = explode(",", $devices);
 				
 				$forwardApp = false;
 				
-				foreach( (array)$deviceList as $v )
+				foreach( (array) $deviceList as $v )
 				{
 				
 					if( $uagent_obj->$v() )
@@ -178,11 +180,13 @@ class plgSystemMobileESP extends JPlugin
 				}
 
 				// only iterate once, in the case that the redirect is to a landing page
-				if( mobileESPWeeverHelper::currentPageUrl() == $this->params->get('forwardingUrl', '') )
+				if( mobileESPWeeverHelper::currentPageURL() == $this->params->get('forwardingUrl', '') )
 					$session->set( 'ignore_mobile', '1' );
+				else 
+					$session->set( 'ignore_mobile', '' );
 				
 				if($forwardApp == false)
-					return
+					return;
 				
 				header( 'Location: '.$this->params->get('forwardingUrl', '') );
 			
@@ -272,8 +276,10 @@ class mobileESPWeeverHelper {
 	
 		$pageURL = 'http';
 		
-		if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
-			$pageURL .= "://";
+		if ($_SERVER["HTTPS"] == "on") 
+			$pageURL .= "s";
+		
+		$pageURL .= "://";
 			
 		if ($_SERVER["SERVER_PORT"] != "80") 
 			$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
