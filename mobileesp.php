@@ -53,7 +53,6 @@ class plgSystemMobileESP extends JPlugin
 		if( JRequest::getVar('template') || JRequest::getVar('format') || JRequest::getVar('tmpl') || JRequest::getVar('wxfeed') || JRequest::getVar('jCorsRequest') )
 			return;
 			
-			
 		/* Compatibility with login extension */
 		if( JRequest::getVar('option') == 'com_weeverlogin' )
 			return;
@@ -153,10 +152,12 @@ class plgSystemMobileESP extends JPlugin
 					
 				$uagent_obj = new uagent_info();
 					
-				if(!$this->params->get('webkitOnly', 0) && (!$uagent_obj->DetectWebkit()))
+				if (!$this->params->get('webkitOnly', 0) && (!$uagent_obj->DetectWebkit()) )
 				{
+				
 					$session->set( 'ignore_mobile', '1' );
 					return;
+					
 				}
 					
 				$devices = $this->params->get('devicesForwarded', '');
@@ -168,23 +169,22 @@ class plgSystemMobileESP extends JPlugin
 				
 				$forwardApp = false;
 				
-				foreach((array)$deviceList as $v)
+				foreach( (array)$deviceList as $v )
 				{
-					if($uagent_obj->$v())
+				
+					if( $uagent_obj->$v() )
 						$forwardApp = true;	
+						 
 				}
-				
-				// devices on list not detected, let's not have it check again in this session
-				
-				// only send once, in case the redirect is to a landing page
-				$session->set( 'ignore_mobile', '1' );
+
+				// only iterate once, in the case that the redirect is to a landing page
+				if( mobileESPWeeverHelper::currentPageUrl() == $this->params->get('forwardingUrl', '') )
+					$session->set( 'ignore_mobile', '1' );
 				
 				if($forwardApp == false)
-				{
-					return;
-				}
+					return
 				
-				header('Location: '.$this->params->get('forwardingUrl', ''));
+				header( 'Location: '.$this->params->get('forwardingUrl', '') );
 			
 				break;
 		
@@ -212,8 +212,7 @@ class mobileESPWeeverHelper {
 		return $result;
 	
 	}
-	
-	// these functions need refactoring when I get the chance
+
 	
 	static function getPrimaryDomain($result)
 	{
@@ -228,6 +227,7 @@ class mobileESPWeeverHelper {
 	
 	}
 	
+	
 	static function getDevices($result)
 	{
 	
@@ -241,6 +241,7 @@ class mobileESPWeeverHelper {
 	
 	}
 	
+	
 	static function getAppEnabled($result)
 	{
 	
@@ -253,6 +254,7 @@ class mobileESPWeeverHelper {
 		return null;
 	}
 	
+	
 	static function getCustomAppDomain($result)
 	{
 	
@@ -263,6 +265,23 @@ class mobileESPWeeverHelper {
 		}
 	
 		return null;
+	}
+	
+	
+	static function currentPageURL() {
+	
+		$pageURL = 'http';
+		
+		if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+			$pageURL .= "://";
+			
+		if ($_SERVER["SERVER_PORT"] != "80") 
+			$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+		else
+			$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+
+		return $pageURL;
+		
 	}
 
 }
