@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			1.1.1
+*	Version: 			1.2
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -22,6 +22,10 @@
 
 defined('_JEXEC') or die();
 
+# Joomla 3.0 nonsense
+if( !defined('DS') )
+	define( 'DS', DIRECTORY_SEPARATOR );
+
 jimport('joomla.plugin.plugin');
 
 require_once JPATH_PLUGINS.DS.'system'.DS.'mobileesp'.DS.'mdetect.php';
@@ -33,7 +37,7 @@ class plgSystemMobileESP extends JPlugin
 	public function plgSystemMobileESP(&$subject, $config)
 	{
 	
-		$app =& JFactory::getApplication();
+		$app = JFactory::getApplication();
 		
 		// disable on the admin backend
 		if( $app->isAdmin() )
@@ -46,7 +50,7 @@ class plgSystemMobileESP extends JPlugin
 	public function onAfterInitialise()
 	{
 	
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 	
 		// none of this if it's an RSS request, specific template, or 
 		// component-only setting to play nice with Joomla devs & Weever
@@ -205,7 +209,7 @@ class mobileESPWeeverHelper {
 	static function getWeeverSettingsDB()
 	{
 	
-		$db = &JFactory::getDBO();
+		$db = JFactory::getDBO();
 			
 		$query = 	"	SELECT	* ".
 					"	FROM	#__weever_config ";
