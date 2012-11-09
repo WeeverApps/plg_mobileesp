@@ -12,11 +12,14 @@
 	<authorUrl>http://www.weeverapps.com/</authorUrl>
 	<version>1.2</version>
 	<description>MobileESP plugin for Joomla, detects smartphones to redirect to web app site or specific landing URL in Joomla.</description>
+	<scriptfile>mobileesp.scriptfile.php</scriptfile>
+	
 	<files>
 		<filename plugin="mobileesp">mobileesp.php</filename>
 		<filename plugin="mobileesp">mdetect.php</filename>
 		<filename plugin="mobileesp">index.html</filename>
 	</files>
+	
 	<config>
 	<fields name="params">
 		<fieldset name="Settings">
@@ -37,4 +40,9 @@
 		 </fieldset>
 		</fields>
 	</config>
+	<updateservers>
+	
+		<server type="collection">http://weeverapps.com/download_files/weever_appbuilder.xml</server>
+		
+	</updateservers>
 </extension>
