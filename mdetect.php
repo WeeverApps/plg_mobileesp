@@ -146,7 +146,7 @@ class uagent_info
    var $deviceBBBoldTouch = 'blackberry 99'; //### Bold Touch
    var $deviceBBCurveTouch = 'blackberry 938'; // ### Curve Touch
    var $deviceBBPlaybook = 'playbook'; //PlayBook tablet
-   var $deviceBB10 = 'BB10';
+   var $deviceBB10 = 'bb10';
    
    var $devicePalm = 'palm';
    var $deviceWebOS = 'webos'; //For Palm's line of WebOS devices
