@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			1.2
+*	Version: 			1.3
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -42,12 +42,14 @@ class plgSystemMobileESP extends JPlugin
 		// disable on the admin backend
 		if( $app->isAdmin() )
 			return;
-	
+
 		parent::__construct($subject, $config);
+		
+		$this->checkRedirect();
 	
 	}
 	
-	public function onAfterInitialise()
+	public function checkRedirect()
 	{
 	
 		$session = JFactory::getSession();
@@ -86,7 +88,7 @@ class plgSystemMobileESP extends JPlugin
 					return;
 					
 				$settings = mobileESPWeeverHelper::getWeeverSettingsDB();
-				
+
 				if(mobileESPWeeverHelper::getAppEnabled($settings) == "0")
 					return;
 
@@ -101,19 +103,23 @@ class plgSystemMobileESP extends JPlugin
 
 				if(!$uagent_obj->DetectWebkit())
 				{
+				
 					$session->set( 'ignore_mobile', '1' );
 					return;
+					
 				}
 				
 				$weeverApp = false;
 				
-				foreach((array)$deviceList as $v)
+				foreach( (array) $deviceList as $v )
 				{
-					if($v)
-					{
-						if($uagent_obj->$v())
-							$weeverApp = true;	
-					}
+						
+					if(!$v)
+						continue;
+
+					if( $uagent_obj->$v() )
+						$weeverApp = true;	
+
 				}
 				
 				if($weeverApp == false)
@@ -121,7 +127,7 @@ class plgSystemMobileESP extends JPlugin
 					$session->set( 'ignore_mobile', '1' );
 					return;
 				}
-				
+
 				$request_uri = $_SERVER['REQUEST_URI'];
 				
 				$request_uri = str_replace("?full=0","",$request_uri);
@@ -148,7 +154,7 @@ class plgSystemMobileESP extends JPlugin
 					jexit();
 					
 				}
-			
+						
 				break;
 			
 			default:
