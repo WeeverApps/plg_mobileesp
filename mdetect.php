@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			1.2
+*	Version: 			1.4
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -146,6 +146,7 @@ class uagent_info
    var $deviceBBBoldTouch = 'blackberry 99'; //### Bold Touch
    var $deviceBBCurveTouch = 'blackberry 938'; // ### Curve Touch
    var $deviceBBPlaybook = 'playbook'; //PlayBook tablet
+   var $deviceBB10 = 'BB10';
    
    var $devicePalm = 'palm';
    var $deviceWebOS = 'webos'; //For Palm's line of WebOS devices
@@ -506,6 +507,14 @@ function DetectAppleTVTwo()
          return $this->false;
    }
    
+   function DetectBlackBerry10()
+   {
+       if ( stripos($this->useragent, $this->deviceBB10) > -1 && stripos($this->useragent, 'mobile') > -1 ) 
+         return $this->true;
+       else
+         return $this->false;
+   }
+   
    //**************************
    // Detects if the current browser is on a BlackBerry tablet device.
    //    Examples: PlayBook
@@ -530,20 +539,24 @@ function DetectAppleTVTwo()
         return $this->false;
    }
 
-   //**************************
-   // Detects if the current browser is a BlackBerry Touch phone
-   //    device, such as the Storm or Torch. Excludes the Playbook.
-   function DetectBlackBerryTouch()
-   {
-       if ((stripos($this->useragent, $this->deviceBBStorm) > -1) ||
-                (stripos($this->useragent, $this->deviceBBTorch) > -1) ||
-                (stripos($this->useragent, $this->deviceBBBoldTouch) > -1) ||
-                (stripos($this->useragent, $this->deviceBBBoldTouch97) > -1) ||
-                (stripos($this->useragent, $this->deviceBBCurveTouch) > -1)) // ###
-         return $this->true;
-       else
-         return $this->false;
-   }
+	//**************************
+	// Detects if the current browser is a BlackBerry Touch phone
+	//    device, such as the Storm or Torch. Excludes the Playbook.
+	function DetectBlackBerryTouch()
+	{
+	    if (
+	    			(stripos($this->useragent, $this->deviceBBStorm) > -1) ||
+	             (stripos($this->useragent, $this->deviceBBTorch) > -1) ||
+	             (stripos($this->useragent, $this->deviceBBBoldTouch) > -1) ||
+	             (stripos($this->useragent, $this->deviceBBBoldTouch97) > -1) ||
+	             (stripos($this->useragent, $this->deviceBBCurveTouch) > -1) ||
+	             (stripos($this->useragent, $this->deviceBB10) > -1) && stripos($this->useragent, 'mobile') > -1
+	             
+	      )  // ###
+	      return $this->true;
+	    else
+	      return $this->false;
+	}
    
    //**************************
    // Detects if the current browser is a BlackBerry OS 5 device AND
