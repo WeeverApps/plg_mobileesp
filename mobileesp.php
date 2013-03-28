@@ -134,7 +134,7 @@ class plgSystemMobileESP extends JPlugin
 				$request_uri = str_replace("&full=0","",$request_uri);		
 		
 				if($request_uri && $request_uri != 'index.php' && $request_uri != '/'  )
-					$exturl = '?exturl='.urlencode($request_uri);
+					$exturl = '#!/thtml/'.bin2hex( str_replace('http://', '', $request_uri) );
 				else
 					$exturl = "";
 					
