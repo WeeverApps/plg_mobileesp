@@ -63,6 +63,9 @@ class plgSystemMobileESP extends JPlugin
 		if( JRequest::getVar('option') == 'com_weeverlogin' )
 			return;
 			
+		if( JRequest::getVar('option') == "com_user" || JRequest::getVar('option') == "com_users" || JRequest::getVar('wxConfirmLogin') == 1)
+			return;
+			
 		// kill the ignore_mobile session var if full=0 added to query
 		if (JRequest::getVar('full') == '0')
 		{
