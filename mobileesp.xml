@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.7" type="plugin" group="system" method="upgrade">
+<extension version="2.5" type="plugin" group="system" method="upgrade">
 	<name>System - MobileESP</name>
 	<author>Robert Gerald Porter, Anthony Hand</author>
-	<creationDate>2013-06-12</creationDate>
+	<creationDate>2014-02-07</creationDate>
 	<copyright>
 		Joomla Plugin authored by Robert Gerald Porter, 
-		The MobileESP Project is Copyright (C) 2010-2013 Anthony Hand
+		The MobileESP Project is Copyright (C) 2010-2014 Anthony Hand
 	</copyright>
 	<license>GPLv3</license>
 	<authorEmail>rob@weeverapps.com</authorEmail>
 	<authorUrl>http://www.weeverapps.com/</authorUrl>
-	<version>1.4.1</version>
+	<version>2.0</version>
 	<description>MobileESP plugin for Joomla, detects smartphones to redirect to web app site or specific landing URL in Joomla.</description>
-	<scriptfile>mobileesp.scriptfile.php</scriptfile>
+	
+	<scriptfile>mobileesp.install.php</scriptfile>
 	
 	<files>
 		<filename plugin="mobileesp">mobileesp.php</filename>
@@ -40,9 +41,5 @@
 		 </fieldset>
 		</fields>
 	</config>
-	<updateservers>
-	
-		<server type="collection">http://weeverapps.com/download_files/weever_appbuilder.xml</server>
-		
-	</updateservers>
+
 </extension>

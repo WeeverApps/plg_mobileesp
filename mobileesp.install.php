@@ -5,7 +5,7 @@
 *
 *	Plugin Author:		Robert Gerald Porter <rob@weeverapps.com>
 *	Library Author:		Anthony Hand <http://code.google.com/p/mobileesp/>		
-*	Version: 			1.4
+*	Version: 			2.0
 *	License: 			GPL v3.0
 *
 *	This extension is free software: you can redistribute it and/or modify
@@ -22,24 +22,20 @@
 
 defined('_JEXEC') or die();
 
-class plgSystemMobileESPInstallerScript
-{ 
+class plgSystemMobileESPInstallerScript { 
 
-	public function install( $parent ) 
-	{ 
+	public function install( $parent ) { 
 
-		$db 				= JFactory::getDbo();
-		$tableExtensions 	= $db->nameQuote("#__extensions");
-		$columnElement   	= $db->nameQuote("element");
-		$columnType      	= $db->nameQuote("type");
-		$columnEnabled   	= $db->nameQuote("enabled");
-		 
-		$db->setQuery("UPDATE $tableExtensions SET $columnEnabled=1 WHERE $columnElement='mobileesp' AND $columnType='plugin'");
-		$db->query();
-		
-		echo "TEST";
+		$query = $db->getQuery(true)
+		 	->update($db->qn('#__extensions'))
+		 	->set($db->qn('enabled') . ' = ' . $db->q(1))
+		 	->where($db->qn('type') . ' = ' . $db->q('plugin'))
+		 	->where($db->qn('folder') . ' = ' . $db->q('system'))
+		 	->where($db->qn('element') . ' = ' . $db->q('mobileesp'));
+		 $db->setQuery($query);
+		 $db->execute();
 		  
 	} 
   
 }
-?>
+
